@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Lokasi</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+</head>
+<body>
+
+<h2>Data Lokasi</h2>
+<div id="map" style="height:500px;"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+const map = L.map('map').setView([-6.2, 106.8], 10);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+.addTo(map);
+
+fetch('/locations')
+.then(res => res.json())
+.then(data => {
+  data.forEach(loc => {
+    L.marker([loc.lat, loc.lon])
+      .addTo(map)
+      .bindPopup(loc.waktu);
+  });
+});
+</script>
+
+</body>
+</html>

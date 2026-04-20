@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bagikan Lokasi</title>
+</head>
+<body>
+
+<h2>Klik untuk kirim lokasi</h2>
+<button onclick="kirim()">Kirim Lokasi</button>
+
+<script>
+function kirim() {
+  if (!navigator.geolocation) {
+    alert("Tidak support GPS");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(pos => {
+    fetch('/location', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude,
+        waktu: new Date().toLocaleString()
+      })
+    });
+
+    alert("Lokasi terkirim!");
+  });
+}
+</script>
+
+</body>
+</html>
